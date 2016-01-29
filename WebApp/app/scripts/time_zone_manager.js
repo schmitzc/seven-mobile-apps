@@ -1,7 +1,26 @@
 (function($) {
   var TimeZoneManager = {
-    savedZones: function(includeCurrent) {
-      var zones = [];
+    savedZones: [],
+
+    fetchZones: function(completion) {
+      var successFunction = _.bind(function(data) {
+        this.zones = data;
+        if (completion) completion(data);
+      }, this);
+
+      $.ajax({
+        url: 'http://localhost:3000/clock/time_zones',
+        headers: {Accept: 'application/json'},
+        success: successFunction
+      });
+    },
+
+    allZones: function() {
+      return this.zones;
+    },
+
+    allSavedZones: function(includeCurrent) {
+      var zones = [].concat(this.savedZones);
 
       if (includeCurrent) {
         var refDate = new Date();
@@ -17,6 +36,11 @@
       return zones;
     },
 
+    saveZoneAtIndex: function(index) {
+      var zone = this.zones[index];
+      this.savedZones.push(zone);
+    },
+
     formatOffsetMinutes: function(offsetMinutes) {
       var offsetHours = offsetMinutes / 60;
       offsetHours = Math.abs(offsetHours).toString() + ':00';
@@ -26,20 +50,10 @@
     },
 
     createClocksIn: function(list) {
-      var zones = this.savedZones(true);
+      var zones = this.allSavedZones(true);
       _.each(zones, function(zone) {
         var item = $('<li class="clock"/>');
         $(list).append(item);
-      });
-    },
-
-    fetchTimeZones: function(completion) {
-      $.ajax({
-        url: 'http://localhost:3000/clock/time_zones',
-        headers: {Accept: 'application/json'},
-        success: function(data) {
-          completion(data);
-        }
       });
     }
   };

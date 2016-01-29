@@ -14,12 +14,6 @@
   };
 
   $(document).ready(function() {
-    var tzManager = app.namespaces.managers.TimeZoneManager;
-    var clock = app.namespaces.models.Clock;
-
-    tzManager.fetchTimeZones(function(zones) {
-      tzManager.createClocksIn($('#clock-list'));
-      clock.start();
-    });
+    $.app.namespaces.controllers.MainViewController.initialize();
   });
 })(jQuery);

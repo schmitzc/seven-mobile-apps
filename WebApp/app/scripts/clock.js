@@ -9,8 +9,8 @@
 
     tick: function() {
       var date = new Date();
-      var tzManager = app.namespaces.managers.TimeZoneManager;
-      var zones = tzManager.savedZones(true);
+      var timeZoneManager = app.namespaces.managers.TimeZoneManager;
+      var zones = timeZoneManager.allSavedZones(true);
 
       var updateClockAtIndex = function(index, element) {
         var zone = zones[index];
