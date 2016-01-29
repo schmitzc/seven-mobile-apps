@@ -59,9 +59,21 @@
     },
 
     refreshClockList: function() {
+      var zones = timeZoneManager.allSavedZones(true),
+        template = $('#clock-template').text();
+
       clockList.empty();
-      timeZoneManager.createClocksIn(clockList);
+
+      _.each(zones, function(zone, index) {
+        this.createClock(zone, index, template);
+      }, this);
+
       clock.tick();
+    },
+
+    createClock: function(zone, index, template) {
+      var item = $(Mustache.render(template, zone));
+      clockList.append(item);
     }
   };
 

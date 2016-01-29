@@ -4,16 +4,32 @@
   </head>
   <body>
     <button id='add-clock'>Add Clock</button>
-    <ul id='zone-list'></ul>
-    <ul id='clock-list'></ul>
+    <div id='zone-list'></div>
+    <div id='clock-list'></div>
 
     <script src='components/underscore/underscore.js'></script>
     <script src='components/jquery/dist/jquery.js'></script>
+    <script src='components/mustache.js/mustache.js'></script>
     <script src='components/intl/dist/Intl.js'></script>
     <script src='components/intl/locale-data/jsonp/en.js'></script>
+
     <script src='scripts/main.js'></script>
     <script src='scripts/time_zone_manager.js'></script>
     <script src='scripts/clock.js'></script>
     <script src='scripts/view_controller.js'></script>
+
+    <script id='clock-template' type='text/template'><!-- <callout id='templates' /> -->
+      <div class='clock'>
+        <p class='clock-time'>{{time}}</p>
+        <p class='clock-timezone'>{{name}} ({{formated_offset}}</p>
+      </div>
+    </script>
+
+    <script id='time-zone-template' type='text/template'>
+      <div class='time-zone'>
+        <p class='time-zone-name'>{{name}}</p>
+        <p class='time-zone-offset'>(UTC {{formated_offset}} hours)</p>
+      </div>
+    </script>
   </body>
 </html>
