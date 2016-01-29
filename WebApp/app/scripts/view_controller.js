@@ -22,12 +22,12 @@
     addClockClicked: function() {
       if (zoneList.children().length === 0) {
         var zones = timeZoneManager.allZones(),
-          clickHandler = _.bind(this.zoneClicked, this);
+          clickHandler = _.bind(this.zoneClicked, this),
+          template = $('#time-zone-template').text();
 
         _.each(zones, function(zone, index) {
-          var item = $('<li class="zone"/>');
+          var item = $(Mustache.render(template, zone));
           item.data('zone-index', index);
-          item.text(zone.name);
           item.click(clickHandler);
           zoneList.append(item);
         });

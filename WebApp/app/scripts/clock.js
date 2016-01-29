@@ -19,7 +19,7 @@
       };
       updateClockAtIndex = _.bind(updateClockAtIndex, this)
 
-      $('.clock').each(updateClockAtIndex);
+      $('.clock-time').each(updateClockAtIndex);
     },
 
     convertAndFormatTime: function(offset, date) {

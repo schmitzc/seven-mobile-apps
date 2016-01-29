@@ -21,14 +21,18 @@
     <script id='clock-template' type='text/template'><!-- <callout id='templates' /> -->
       <div class='clock'>
         <p class='clock-time'>{{time}}</p>
-        <p class='clock-timezone'>{{name}} ({{formated_offset}}</p>
+        <p class='clock-timezone'>
+          {{name}} ({{formatted_offset}})
+        </p>
       </div>
     </script>
 
     <script id='time-zone-template' type='text/template'>
       <div class='time-zone'>
         <p class='time-zone-name'>{{name}}</p>
-        <p class='time-zone-offset'>(UTC {{formated_offset}} hours)</p>
+        <p class='time-zone-offset'>
+          (UTC {{formatted_offset}} hours)
+        </p>
       </div>
     </script>
   </body>
