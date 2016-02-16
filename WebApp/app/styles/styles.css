@@ -1,0 +1,40 @@
+/* Mobile */
+
+body {
+  font-size: 16px;
+}
+
+/* Clock */
+
+.clock {
+  margin: 0.5rem 0;
+}
+
+.clock-time {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.clock-timezone {
+  color: #888;
+}
+
+.delete-clock {
+  display: none;
+}
+
+/* Time zones */
+
+.timezone {
+  padding-left: 1.5rem;
+}
+
+.timezone-name {
+  font-weight: bold;
+  margin: 0;
+}
+
+.timezone-offset {
+  color: #888;
+}

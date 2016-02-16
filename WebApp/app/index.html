@@ -1,20 +1,31 @@
 <!DOCTYPE HTML>
-<html manifest='/manifest.appcache'>
+<html>
   <head>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='icon' type='image/png' href='/images/favicon.png'>
     <link rel='apple-touch-icon' href='/images/favicon.png'>
+    <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Raleway:400,300,600'>
+    <link rel='stylesheet' type='text/css' href='components/skeleton/css/normalize.css'>
+    <link rel='stylesheet' type='text/css' href='components/skeleton/css/skeleton.css'>
+    <link rel='stylesheet' type='text/css' href='styles/styles.css'>
     <title>World Clock</title>
   </head>
   <body>
-    <div id='manage-clocks'>
-      <button id='add-clock'>Add Clock</button>
-      <button id='edit-clocks'>Edit</button>
-      <button id='toggle-current-time' data-shown='true'>Hide Current Time</button>
-      <button id='format-clock'>24 Hour</button>
+    <div class='container'>
+      <div class='row'>
+        <div class='column'>
+          <h1>World Clock</h1>
+          <button id='edit-clocks' class='button button-secondary'>Edit</button>
+          <button id='add-clock' class='button button-secondary u-pull-right'>Add Clock</button>
+        </div>
+      </div>
+      <div class='row'>
+        <div id='clock-list' class='one-half column'></div>
+        <div id='zone-list' class='one-half column u-pull-right'></div>
+      </div>
+      <button id='toggle-current-time' class='button button-secondary' data-shown='true'>Hide Current Time</button>
+      <button id='format-clock' class='button button-secondary u-pull-right'>24 Hour</button>
     </div>
-    <div id='zone-list'></div>
-    <div id='clock-list'></div>
 
     <script src='components/underscore/underscore.js'></script>
     <script src='components/jquery/dist/jquery.js'></script>
