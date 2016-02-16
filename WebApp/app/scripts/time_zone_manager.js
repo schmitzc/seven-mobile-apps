@@ -3,6 +3,8 @@
     savedZones: [],
 
     initialize: function() {
+      this.loadSavedTimeZones();
+
       if (navigator.onLine) {
         var completion = _.bind(function(zones) {
           this.storeTimeZonesLocally(zones);
@@ -29,6 +31,13 @@
         success: successFunction,
         error: errorFunction
       });
+    },
+
+    loadSavedTimeZones: function() {
+      var localSavedTimeZones = localStorage.savedTimeZones;
+      if (localSavedTimeZones) {
+        this.savedZones = JSON.parse(localSavedTimeZones);
+      }
     },
 
     loadLocalTimeZones: function() {
@@ -73,10 +82,16 @@
     saveZoneAtIndex: function(index) {
       var zone = this.zones[index];
       this.savedZones.push(zone);
+      this.storeSavedTimeZonesLocally();
     },
 
     deleteZoneAtIndex: function(index) {
       this.savedZones.splice(index, 1);
+      this.storeSavedTimeZonesLocally();
+    },
+
+    storeSavedTimeZonesLocally: function() {
+      localStorage.savedTimeZones = JSON.stringify(this.savedZones);
     },
 
     formatOffsetMinutes: function(offsetMinutes) {

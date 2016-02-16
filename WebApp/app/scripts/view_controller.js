@@ -11,6 +11,14 @@
 
   var MainViewController = {
     initialize: function() {
+      timeZoneManager.initialize();
+      zoneList.hide();
+      this.configureListeners();
+      this.refreshClockList();
+      clock.start();
+    },
+
+    configureListeners: function() {
       this.openZoneListFunction = _.bind(this.addClockClicked, this);
       this.closeZoneListFunction = _.bind(this.dismissZoneList, this);
       this.editFunction = _.bind(this.editClicked, this);
@@ -23,12 +31,6 @@
       editButton.click(this.editFunction);
       toggleCurrentTimeButton.click(this.toggleCurrentTimeFunction);
       formatClockButton.click(this.formatClockFunction);
-
-      zoneList.hide();
-      this.refreshClockList();
-      clock.start();
-
-      timeZoneManager.initialize();
     },
 
     addClockClicked: function() {
@@ -131,7 +133,7 @@
       if (zone.isCurrent) {
         deleteButton.remove();
       } else {
-        deleteButton.data('clock-index', index - 1);
+        deleteButton.data('clock-index', index);
         deleteButton.click(this.deleteClockFunction);
       }
 
