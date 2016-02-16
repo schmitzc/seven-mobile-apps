@@ -2,9 +2,20 @@
   var TimeZoneManager = {
     savedZones: [],
 
+    initialize: function() {
+      var localZones = localStorage.allTimeZones;
+      if (localZones) {
+        this.zonesLoaded(JSON.parse(localZones));
+      } else {
+        this.fetchZones(function(zones) {
+          localStorage.allTimeZones = JSON.stringify(zones);
+        });
+      }
+    },
+
     fetchZones: function(completion) {
       var successFunction = _.bind(function(data) {
-        this.zones = data;
+        this.zonesLoaded(data);
         if (completion) completion(data);
       }, this);
 
@@ -13,6 +24,10 @@
         headers: {Accept: 'application/json'},
         success: successFunction
       });
+    },
+
+    zonesLoaded: function(zones) {
+      this.zones = zones;
     },
 
     allZones: function() {
