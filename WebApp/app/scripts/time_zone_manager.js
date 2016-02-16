@@ -3,13 +3,13 @@
     savedZones: [],
 
     initialize: function() {
-      var localZones = localStorage.allTimeZones;
-      if (localZones) {
-        this.zonesLoaded(JSON.parse(localZones));
+      if (navigator.onLine) {
+        var completion = _.bind(function(zones) {
+          this.storeTimeZonesLocally(zones);
+        }, this);
+        this.fetchZones(completion);
       } else {
-        this.fetchZones(function(zones) {
-          localStorage.allTimeZones = JSON.stringify(zones);
-        });
+        this.loadLocalTimeZones();
       }
     },
 
@@ -19,11 +19,29 @@
         if (completion) completion(data);
       }, this);
 
+      var errorFunction = _.bind(function() {
+        this.loadLocalTimeZones();
+      }, this);
+
       $.ajax({
         url: 'http://localhost:3000/clock/time_zones',
         headers: {Accept: 'application/json'},
-        success: successFunction
+        success: successFunction,
+        error: errorFunction
       });
+    },
+
+    loadLocalTimeZones: function() {
+      var localZones = localStorage.allTimeZones;
+      if (localZones) {
+        this.zonesLoaded(JSON.parse(localZones));
+      } else {
+        alert('Unable to fetch time zones list.');
+      }
+    },
+
+    storeTimeZonesLocally: function(zones) {
+      localStorage.allTimeZones = JSON.stringify(zones);
     },
 
     zonesLoaded: function(zones) {
