@@ -5,7 +5,9 @@
     clockList = $('#clock-list'),
     zoneList = $('#zone-list'),
     addClockButton = $('#add-clock'),
-    editButton = $('#edit-clocks');
+    editButton = $('#edit-clocks'),
+    toggleCurrentTimeButton = $('#toggle-current-time'),
+    formatClockButton = $('#format-clock');
 
   var MainViewController = {
     initialize: function() {
@@ -14,8 +16,13 @@
       this.editFunction = _.bind(this.editClicked, this);
       this.doneEditingFunction = _.bind(this.doneClicked, this);
       this.deleteClockFunction = _.bind(this.deleteClockClicked, this);
+      this.toggleCurrentTimeFunction = _.bind(this.toggleCurrentTimeClicked, this);
+      this.formatClockFunction = _.bind(this.formatClockClicked, this);
+
       addClockButton.click(this.openZoneListFunction);
       editButton.click(this.editFunction);
+      toggleCurrentTimeButton.click(this.toggleCurrentTimeFunction);
+      formatClockButton.click(this.formatClockFunction);
 
       zoneList.hide();
       this.refreshClockList();
@@ -83,6 +90,25 @@
 
     doneClicked: function() {
       this.dismissEditMode();
+    },
+
+    toggleCurrentTimeClicked: function() {
+      var currentTime = $(clockList[0]);
+      currentTime.toggle();
+
+      var shownKey = 'shown';
+      var shown = toggleCurrentTimeButton.data(shownKey);
+      var buttonText = (shown) ? 'Show Current Time' : 'Hide Current Time';
+
+      toggleCurrentTimeButton.text(buttonText)
+        .data(shownKey, !shown);
+    },
+
+    formatClockClicked: function() {
+      var buttonText = (clock.hour12) ? '12 Hour' : '24 hour';
+      formatClockButton.text(buttonText);
+
+      clock.hour12 = !clock.hour12;
     },
 
     refreshClockList: function() {

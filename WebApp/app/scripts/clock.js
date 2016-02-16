@@ -1,5 +1,7 @@
 (function($) {
   var Clock = {
+    hour12: true,
+
     start: function() {
       this.tick();
 
@@ -31,15 +33,15 @@
       var offsetMilliseconds = offset * 1000;
       var convertedTime = utcTime + offsetMilliseconds;
 
-      return this.formatTime(new Date(convertedTime), true);
+      return this.formatTime(new Date(convertedTime));
     },
 
-    formatTime: function(date, hour12) {
+    formatTime: function(date) {
       var options = {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: hour12
+        hour12: this.hour12
       };
 
       return new Intl.DateTimeFormat('en-US', options).format(date);
