@@ -3,7 +3,10 @@
   <head>
   </head>
   <body>
-    <button id='add-clock'>Add Clock</button>
+    <div id='manage-clocks'>
+      <button id='add-clock'>Add Clock</button>
+      <button id='edit-clocks'>Edit</button>
+    </div>
     <div id='zone-list'></div>
     <div id='clock-list'></div>
 
@@ -23,6 +26,7 @@
         <p class='clock-time'>{{time}}</p>
         <p class='clock-timezone'>
           {{name}} ({{formatted_offset}})
+          <button class='delete-clock'>Delete</button>
         </p>
       </div>
     </script>

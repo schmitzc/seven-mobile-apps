@@ -4,13 +4,18 @@
     timeZoneManager = namespaces.managers.TimeZoneManager,
     clockList = $('#clock-list'),
     zoneList = $('#zone-list'),
-    addClockButton = $('#add-clock');
+    addClockButton = $('#add-clock'),
+    editButton = $('#edit-clocks');
 
   var MainViewController = {
     initialize: function() {
       this.openZoneListFunction = _.bind(this.addClockClicked, this);
       this.closeZoneListFunction = _.bind(this.dismissZoneList, this);
+      this.editFunction = _.bind(this.editClicked, this);
+      this.doneEditingFunction = _.bind(this.doneClicked, this);
+      this.deleteClockFunction = _.bind(this.deleteClockClicked, this);
       addClockButton.click(this.openZoneListFunction);
+      editButton.click(this.editFunction);
 
       zoneList.hide();
       this.refreshClockList();
@@ -36,16 +41,6 @@
       this.presentZoneList();
     },
 
-    zoneClicked: function(event) {
-      var item = $(event.currentTarget),
-        index = item.data('zone-index');
-
-      timeZoneManager.saveZoneAtIndex(index);
-
-      this.dismissZoneList();
-      this.refreshClockList();
-    },
-
     presentZoneList: function() {
       addClockButton.text('Cancel');
       addClockButton.click(this.closeZoneListFunction);
@@ -56,6 +51,38 @@
       addClockButton.text('Add Clock');
       addClockButton.click(this.openZoneListFunction);
       zoneList.hide();
+    },
+
+    zoneClicked: function(event) {
+      var item = $(event.currentTarget),
+        index = item.data('zone-index');
+
+      timeZoneManager.saveZoneAtIndex(index);
+
+      this.dismissZoneList();
+      this.refreshClockList();
+    },
+
+    presentEditMode: function() {
+      $('.delete-clock').show();
+      editButton.text('Done');
+      editButton.off('click')
+        .click(this.doneEditingFunction);
+    },
+
+    dismissEditMode: function() {
+      $('.delete-clock').hide();
+      editButton.text('Edit');
+      editButton.off('click')
+        .click(this.editFunction);
+    },
+
+    editClicked: function() {
+      this.presentEditMode();
+    },
+
+    doneClicked: function() {
+      this.dismissEditMode();
     },
 
     refreshClockList: function() {
@@ -72,8 +99,26 @@
     },
 
     createClock: function(zone, index, template) {
-      var item = $(Mustache.render(template, zone));
+      var item = $(Mustache.render(template, zone)),
+        deleteButton = item.find('.delete-clock');
+
+      if (zone.isCurrent) {
+        deleteButton.remove();
+      } else {
+        deleteButton.data('clock-index', index - 1);
+        deleteButton.click(this.deleteClockFunction);
+      }
+
       clockList.append(item);
+    },
+
+    deleteClockClicked: function(event) {
+      var clickedButton = $(event.currentTarget),
+        index = clickedButton.data('clock-index'),
+        parentDiv = clickedButton.parents('.clock');
+
+      timeZoneManager.deleteZoneAtIndex(index);
+      parentDiv.remove();
     }
   };
 

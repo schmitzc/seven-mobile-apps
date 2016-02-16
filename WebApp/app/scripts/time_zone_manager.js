@@ -29,7 +29,8 @@
           name: 'Current',
           zone_name: 'Current',
           offset: -offsetMinutes * 60,
-          formatted_offset: this.formatOffsetMinutes(-offsetMinutes)
+          formatted_offset: this.formatOffsetMinutes(-offsetMinutes),
+          isCurrent: true
         });
       }
 
@@ -39,6 +40,10 @@
     saveZoneAtIndex: function(index) {
       var zone = this.zones[index];
       this.savedZones.push(zone);
+    },
+
+    deleteZoneAtIndex: function(index) {
+      this.savedZones.splice(index, 1);
     },
 
     formatOffsetMinutes: function(offsetMinutes) {
